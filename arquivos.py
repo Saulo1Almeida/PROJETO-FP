@@ -35,5 +35,8 @@ def carregamentodedados(tipo):
   else:
     print(f" Tipo de dado desconhecido: {tipo}")
     return[]
-  
+  with open(arquivo "w", encoding = "utf-8") as f:
+    json.dump(dados, f, indent = 4, ensure_ascif= False)
+  print(f" Dados salvos com sucesso em {arquivo}. ")
+
 
