@@ -5,3 +5,26 @@ def buscar_IdProfessor(alunos, id_aluno):
     if aluno["id"] == id_aluno:
       return aluno
   return None
+def listar_alunos(alunos):
+  if not alunos:
+    print("\n Nenhum aluno cadastrado.\n")
+    return
+  print("\n Lista de Alunos:\n")
+  for a in alunos:
+    print(f"ID: {a['id']} | Matrícula: {a['matricula']} | Nome: {a['nome']} | Turma ID: {a['turma_id']}")
+    print()
+def criar_aluno():
+    alunos = carregaramentodedados("\nalunos\n")
+    nome = input("\n Nome do Aluno: \n")
+    matricula = input("\n Matrícula: \n")
+    turma_id = input("\n ID da Turma (deixe vazio se não houver): \n")
+    if any(a["matricula"] == matricula for a in alunos):
+        print("\n Matrícula já cadastrada.\n")
+        return
+    aluno = {
+        "id":  id_dados(alunos),
+        "nome": nome,
+        "matricula": matricula,
+        "turma_id": int(turma_id) if turma_id.isdigit() else None,
+        "notas": []
+    }
