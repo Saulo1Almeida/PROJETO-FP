@@ -1,8 +1,7 @@
 from crud_menu import menu_crud_alunos, menu_crud_professores, menu_crud_turmas
 from relatorios import exibir_menu_relatorios
 
-def exibir_menu():
-   while True:
+def exibir_menu():while True:
         print("\n========== SISTEMA DE GESTÃO ESCOLAR COMUNITÁRIA ==========")
         print("1. Gerenciar Alunos (CRUD)")
         print("2. Gerenciar Professores (CRUD)")
@@ -13,4 +12,23 @@ def exibir_menu():
 
         opcao = input("Escolha uma opção: ")
 
+        if opcao == "1":
+            menu_crud_alunos()
+        elif opcao == "2":
+            menu_crud_professores()
+        elif opcao == "3":
+            menu_crud_turmas()
+        elif opcao == "4":
+            exibir_menu_relatorios()
+        elif opcao == "5":
+            print("Saindo do Sistema...")
+            break
+        else:
+            print(" Opção inválida,Tente novamente.\n")
+
+
+
+
+
       
+
