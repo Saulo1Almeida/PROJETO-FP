@@ -38,5 +38,10 @@ def carregamentodedados(tipo):
   with open(arquivo "w", encoding = "utf-8") as f:
     json.dump(dados, f, indent = 4, ensure_ascif= False)
   print(f" Dados salvos com sucesso em {arquivo}. ")
+def id_dados(dados):
+  if not dados:
+    return 1
+  maior_id = max(item.get("id", 0) for item in dados)
+  return maior_id + 1
 
 
