@@ -36,3 +36,4 @@ def carregamentodedados(tipo):
     print(f" Tipo de dado desconhecido: {tipo}")
     return[]
   
+
