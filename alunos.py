@@ -69,4 +69,25 @@ def criar_aluno():
       if not alunos:
           print("\n Nenhum aluno cadastrado.\n")
           return
-      
+      id_aluno_str = input("\n Digite o ID do aluno: \n")
+    if not id_aluno_str.isdigit():
+        print(" ID inválido.\n")
+        return
+    id_aluno = int(id_aluno_str)
+    aluno = buscar_IdProfessor(alunos, id_aluno)
+    if aluno:
+        print("\n Detalhes do Aluno:")
+        print(f"ID: {aluno['id']}")
+        print(f"Nome: {aluno['nome']}")
+        print(f"Matrícula: {aluno['matricula']}")
+        print(f"Turma ID: {aluno['turma_id'] if aluno['turma_id'] else 'N/A'}")
+        if aluno['notas']:
+            print("\nNotas:")
+            for nota in aluno['notas']:
+                print(f"  - Disciplina: {nota['disciplina']}, Nota: {nota['valor']:.2f}")
+        else:
+            print("\n O aluno ainda não possui notas cadastradas. \n")
+        print()
+    else:
+        print("\n Aluno não encontrado.\n")
+
