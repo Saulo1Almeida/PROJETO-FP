@@ -51,3 +51,22 @@ def criar_aluno():
     if any(a["matricula"] == matricula for a in alunos):
         print("\n Matrícula já cadastrada.\n")
         return
+    aluno = {
+            "id":  id_dados(alunos),
+            "nome": nome,
+            "matricula": matricula,
+            "turma_id": int(turma_id) if turma_id.isdigit() else None,
+            "notas": []
+    }
+    alunos.append(aluno)
+      salvamentodedados(alunos, "\n alunos \n")
+      print(f"Aluno '{nome}' (ID: {aluno['id']}) adicionado com sucesso!\n")
+  def ler_alunos():
+      alunos = carregaramentodedados("alunos")
+      listar_alunos(alunos)
+  def ler_um_aluno():
+      alunos = carregaramentodedados("alunos")
+      if not alunos:
+          print("\n Nenhum aluno cadastrado.\n")
+          return
+      
