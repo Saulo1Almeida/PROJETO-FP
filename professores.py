@@ -45,7 +45,32 @@ if professor_id:
     print(f"Professor '{nome}' (ID: {professor_id}) adicionado com sucesso!\n")
 else:
     print(f"Erro ao adicionar professor '{nome}'.")
+
+def ler_professores():
+    """Exibe a lista de todos os professores."""
+    listar_professores()
+
+def ler_um_professor():
+    """Exibe os detalhes de um professor específico."""
+    conn = create_connection()
+    if conn is None:
+        return
+    id_digitado = input("Digite o ID do professor: ")
+
+if not id_digitado.isdigit():
+    print("\n ID inválido. Digite apenas números.\n")
+    conn.close()
+    return
+id_professor = int(id_digitado)
+
+professor = buscar_professor_por_id(conn, id_professor)
+if professor:
+    print("\nDetalhes do Professor:")
+    print(f"ID: {professor['id']}")
+    print(f"Nome: {professor['nome']}")
+    print(f"Matrícula: {professor['matricula']}")
+    print(f"Disciplina: {professor['disciplina']}\n")
+else:
+    print("\n Professor não encontrado.\n")
     
-
-
-
+conn.close()
