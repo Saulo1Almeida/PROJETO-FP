@@ -74,3 +74,69 @@ else:
     print("\n Professor não encontrado.\n")
     
 conn.close()
+
+def atualizar_professor():
+    """Atualiza os dados de um professor existente."""
+    conn = create_connection()
+    if conn is None:
+        return
+
+    listar_professores()
+
+id_digitado = input("\n Digite o ID do professor que deseja atualizar: ")
+ if not id_digitado.isdigit():
+     print("\n ID inválido. Digite apenas números.\n")
+     conn.close()
+     return
+ id_professor = int(id_digitado)
+ 
+ professor = buscar_professor_por_id(conn, id_professor)
+ if not professor:
+     print("\n Professor não encontrado.\n")
+     conn.close()
+     return
+     
+ print(f"Editando: {professor['nome']}")
+
+ novo_nome = input(f"Novo nome (Atual: {professor['nome']}): ") or professor["nome"]
+ nova_matricula = input(f"Nova matrícula (Atual: {professor['matricula']}): ") or professor["matricula"]
+ nova_disciplina = input(f"Nova disciplina (Atual: {professor['disciplina']}): ") or professor["disciplina"]
+ 
+ update_query = "UPDATE professores SET nome = ?, matricula = ?, disciplina = ? WHERE id = ?"
+ execute_query(conn, update_query, (novo_nome, nova_matricula, nova_disciplina, id_professor))
+ 
+ conn.close()
+ print("\n Professor atualizado com sucesso!\n")
+
+def deletar_professor():
+    """Deleta um professor existente pelo ID."""
+    conn = create_connection()
+    if conn is None:
+        return
+
+    listar_professores()
+    id_digitado = input("Digite o ID do professor que deseja excluir: ")
+    if not id_digitado.isdigit():
+        print("\n ID inválido. Digite apenas números.\n")
+        conn.close()
+        return
+    id_professor = int(id_digitado)
+    
+    professor = buscar_professor_por_id(conn, id_professor)
+
+    if not professor:
+        print("Professor não encontrado.\n")
+        conn.close()
+        return
+    check_turmas_query = "SELECT id FROM turmas WHERE professor_id = ?"
+    if execute_read_query(conn, check_turmas_query, (id_professor,)):
+    print("\n Erro: O professor está associado a uma ou mais turmas. Remova a associação antes de excluir.\n")
+    conn.close()
+    return
+    
+   delete_query = "DELETE FROM professores WHERE id = ?"
+   execute_query(conn, delete_query, (id_professor,))
+    
+    conn.close()
+ print(f"Professor '{professor['nome']}' removido com sucesso!\n")
+
