@@ -15,3 +15,26 @@ def create_connection():
         if conn:
             conn.close()
         return None
+def execute_query(conn, query, params=()):
+    """Executa uma query SQL (INSERT, UPDATE, DELETE)."""
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query, params)
+        conn.commit()
+        return cursor.lastrowid
+    except Error as e:
+        print(f"Erro ao executar query: {e}")
+        return None
+
+def execute_read_query(conn, query, params=()):
+    """Executa uma query SQL de leitura (SELECT)."""
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query, params)
+        result = cursor.fetchall()
+        return [dict(row) for row in result]
+    except Error as e:
+        print(f"Erro ao executar query de leitura: {e}")
+        return []
+
+
