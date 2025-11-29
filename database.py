@@ -1,48 +1,17 @@
-import json
-import os
+import sqlite3
+from sqlite3 import Error
 
-arquivoalunos = "alunos.json"
-arquivoprofessores = "professores.json"
-arquivoturmas = "turmas.json"
+DATABASE_NAME = "escola.db"
 
-def carregamentodedados(tipo):
-  if tipo == "alunos":
-    arquivo = arquivoalunos
-  elif tipo == "professores":
-    arquivo = arquivoprofessores
-  elif tipo == "turmas":
-    arquivo = arquivoturmas
-  else:
-    print(f" Tipo de dado desconhecido: {tipo}")
-    return[]
-  if os.path.exists(arquivo):
-     with open(arquivo, "r", encoding="utf-8") as f:
-         conteudo = f.read().strip() 
-         if not conteudo:
-             print(f"O arquivo {arquivo} está vazio. Retornando lista vazia.")
-             return []
-         dados = json.loads(conteudo)
-         return dados
- print(f"O arquivo {arquivo} não foi encontrado. Criando lista vazia.")
- return []
-def carregamentodedados(tipo):
-  if tipo == "alunos":
-    arquivo = arquivoalunos
-  elif tipo == "professores":
-    arquivo = arquivoprofessores
-  elif tipo == "turmas":
-    arquivo = arquivoturmas
-  else:
-    print(f" Tipo de dado desconhecido: {tipo}")
-    return[]
-  with open(arquivo "w", encoding = "utf-8") as f:
-    json.dump(dados, f, indent = 4, ensure_ascif= False)
-  print(f" Dados salvos com sucesso em {arquivo}. ")
-def id_dados(dados):
-  if not dados:
-    return 1
-  maior_id = max(item.get("id", 0) for item in dados)
-  return maior_id + 1
-
-
-
+def create_connection():
+    """Cria uma conexão com o banco de dados SQLite."""
+    conn = None
+    try:
+        conn = sqlite3.connect(DATABASE_NAME)
+        conn.row_factory = sqlite3.Row
+        return conn
+    except Error as e:
+        print(f"Erro ao conectar ao banco de dados: {e}")
+        if conn:
+            conn.close()
+        return None
