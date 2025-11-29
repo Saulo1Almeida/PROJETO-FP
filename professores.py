@@ -21,4 +21,26 @@ print("\n Lista de Professores: \n")
 for p in professores:
     print(f"ID: {p['id']} | Matrícula: {p['matricula']} | Nome: {p['nome']} | Disciplina: {p['disciplina']}")
 print()
+def criar_professor():
+    """Cria um novo professor no banco de dados."""
+    conn = create_connection()
+    if conn is None:
+        return
+
+    nome = input("\n Nome do Professor: \n ")
+    matricula = input(" \n Matrícula: \n ")
+    disciplina = input(" \n Disciplina ministrada: \n")
+
+    check_query = "SELECT id FROM professores WHERE matricula = ?"
+    if execute_read_query(conn, check_query, (matricula,)):
+        print("\n Matrícula já cadastrada.\n")
+        conn.close()
+        return
+
+    insert_query = "INSERT INTO professores (nome, matricula, disciplina) VALUES (?, ?, ?)"
+    professor_id = execute_query(conn, insert_query, (nome, matricula, disciplina))
+    
+    conn.close()
+    
+
 
