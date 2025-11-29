@@ -41,6 +41,11 @@ def criar_professor():
     professor_id = execute_query(conn, insert_query, (nome, matricula, disciplina))
     
     conn.close()
+if professor_id:
+    print(f"Professor '{nome}' (ID: {professor_id}) adicionado com sucesso!\n")
+else:
+    print(f"Erro ao adicionar professor '{nome}'.")
     
+
 
 
