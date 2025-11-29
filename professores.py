@@ -14,3 +14,11 @@ def listar_professores():
 
     professores = execute_read_query(conn, "SELECT * FROM professores")
     conn.close()
+if not professores:
+    print("\n Nenhum professor cadastrado.\n")
+    return
+print("\n Lista de Professores: \n")
+for p in professores:
+    print(f"ID: {p['id']} | Matrícula: {p['matricula']} | Nome: {p['nome']} | Disciplina: {p['disciplina']}")
+print()
+
