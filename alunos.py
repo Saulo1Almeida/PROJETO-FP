@@ -120,4 +120,11 @@ def atualizar_aluno():
     
     update_aluno_query = "UPDATE alunos SET nome = ?, matricula = ?, turma_id = ? WHERE id = ?"
     execute_query(conn, update_aluno_query, (novo_nome, nova_matricula, nova_turma_id, id_aluno))
-    
+
+    while True:
+        print("\n Opções de Notas: \n")
+        print("1. Adicionar Nota")
+        print("2. Editar Nota")
+        print("3. Concluir Edição de Aluno")
+        op = input("Escolha uma opção: ")
+
