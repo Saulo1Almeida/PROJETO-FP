@@ -109,3 +109,15 @@ def atualizar_aluno():
         print("\n Aluno não encontrado.\n")
         conn.close()
         return
+
+    print(f"Editando: {aluno['nome']}")
+    
+    novo_nome = input(f"Novo nome (Atual: {aluno['nome']}): ") or aluno["nome"]
+    nova_matricula = input(f"Nova matrícula (Atual: {aluno['matricula']}): ") or aluno["matricula"]
+    
+    nova_turma_id_str = input(f"Novo ID da Turma (Atual: {aluno['turma_id'] if aluno['turma_id'] else 'N/A'}): ")
+    nova_turma_id = int(nova_turma_id_str) if nova_turma_id_str.isdigit() else None
+    
+    update_aluno_query = "UPDATE alunos SET nome = ?, matricula = ?, turma_id = ? WHERE id = ?"
+    execute_query(conn, update_aluno_query, (novo_nome, nova_matricula, nova_turma_id, id_aluno))
+    
