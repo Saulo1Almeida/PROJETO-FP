@@ -60,5 +60,51 @@ def listar_turmas():
         print(f"Turma '{nome}' (ID: {turma_id}) criada com sucesso!\n")
     else:
         print(f"Erro ao criar turma '{nome}'.")
+def ler_turmas():
+    
+    listar_turmas()
+
+def ler_uma_turma():
+    conn = create_connection()
+    if conn is None:
+        return
+
+    id_turma_str = input("\n Digite o ID da turma: \n")
+    if not id_turma_str.isdigit():
+        print(" ID inválido.\n")
+        conn.close()
+        return
+    id_turma = int(id_turma_str)
+    
+    turma = buscar_turma_por_id(conn, id_turma)
+
+    if turma:
+        professor_nome = "N/A"
+        if turma['professor_id']:
+            prof_query = "SELECT nome FROM professores WHERE id = ?"
+            prof_result = execute_read_query(conn, prof_query, (turma['professor_id'],))
+            if prof_result:
+                professor_nome = prof_result[0]['nome']
+
+        print("\n Detalhes da Turma:")
+        print(f"ID: {turma['id']}")
+        print(f"Nome: {turma['nome']}")
+        print(f"Professor: {professor_nome} (ID: {turma['professor_id'] if turma['professor_id'] else 'N/A'})")
+
+        alunos_query = "SELECT id, nome, matricula FROM alunos WHERE turma_id = ?"
+        alunos = execute_read_query(conn, alunos_query, (id_turma,))
+
+        if alunos:
+            print("\nAlunos na Turma:")
+            for aluno in alunos:
+                print(f"  - ID: {aluno['id']}, Nome: {aluno['nome']}, Matrícula: {aluno['matricula']}")
+        else:
+            print("\n A turma ainda não possui alunos. \n")
+        print()
+    else:
+        print("\n Turma não encontrada.\n")
+    
+    conn.close()
+
 
 
