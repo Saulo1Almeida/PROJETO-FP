@@ -23,7 +23,7 @@ def listar_alunos():
     for a in alunos:
         print(f"ID: {a['id']} | Matrícula: {a['matricula']} | Nome: {a['nome']} | Turma ID: {a['turma_id'] if a['turma_id'] else 'N/A'}")
     print()
-    
+
 def criar_aluno():
     """Cria um novo aluno no banco de dados."""
     conn = create_connection()
@@ -34,22 +34,22 @@ def criar_aluno():
     matricula = input("\n Matrícula: \n")
     turma_id_str = input("\n ID da Turma (deixe vazio se não houver): \n")
     turma_id = int(turma_id_str) if turma_id_str.isdigit() else None
-    
+
     check_query = "SELECT id FROM alunos WHERE matricula = ?"
-        if execute_read_query(conn, check_query, (matricula,)):
-            print("\n Matrícula já cadastrada.\n")
-            conn.close()
-            return
-    
-        insert_query = "INSERT INTO alunos (nome, matricula, turma_id) VALUES (?, ?, ?)"
-        aluno_id = execute_query(conn, insert_query, (nome, matricula, turma_id))
-        
+    if execute_read_query(conn, check_query, (matricula,)):
+        print("\n Matrícula já cadastrada.\n")
         conn.close()
-        
-        if aluno_id:
-            print(f"Aluno '{nome}' (ID: {aluno_id}) adicionado com sucesso!\n")
-        else:
-            print(f"Erro ao adicionar aluno '{nome}'.")
+        return
+
+    insert_query = "INSERT INTO alunos (nome, matricula, turma_id) VALUES (?, ?, ?)"
+    aluno_id = execute_query(conn, insert_query, (nome, matricula, turma_id))
+    
+    conn.close()
+    
+    if aluno_id:
+        print(f"Aluno '{nome}' (ID: {aluno_id}) adicionado com sucesso!\n")
+    else:
+        print(f"Erro ao adicionar aluno '{nome}'.")
 
 def ler_alunos():
     """Exibe a lista de todos os alunos."""
@@ -130,7 +130,7 @@ def atualizar_aluno():
         print("2. Editar Nota")
         print("3. Concluir Edição de Aluno")
         op = input("Escolha uma opção: ")
-
+        
         if op == "1":
             disciplina = input("Disciplina: ")
             valor_str = input("Nota (0.0 a 10.0): ")
@@ -144,7 +144,7 @@ def atualizar_aluno():
             nota_query = "INSERT INTO notas (aluno_id, disciplina, valor) VALUES (?, ?, ?)"
             execute_query(conn, nota_query, (id_aluno, disciplina, valor))
             print(f"Nota de {disciplina} adicionada com sucesso.")
-            
+
         elif op == "2":
             disciplina = input("Disciplina que deseja editar: ")
             valor_str = input("Novo valor da nota (0.0 a 10.0): ")
@@ -162,7 +162,7 @@ def atualizar_aluno():
 
         elif op == "3":
             break
-            
+
         else:
             print("Opção inválida.")
 
@@ -198,3 +198,5 @@ def deletar_aluno():
         print("\n Aluno não encontrado.\n")
         
     conn.close()
+
+
