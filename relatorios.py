@@ -97,3 +97,25 @@ def relatorio_notas_alunos():
             aluno_atual = row['nome_aluno']
         print(f"  - Disciplina: {row['disciplina']} | Nota: {row['valor']:.2f}")
     print("===================================================\n")
+
+def exibir_menu_relatorios():
+    while True:
+        print("\n========== MENU DE RELATÓRIOS ==========")
+        print("1. Alunos por Turma")
+        print("2. Professores por Disciplina")
+        print("3. Notas dos Alunos")
+        print("4. Voltar ao Menu Principal")
+        print("========================================")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            relatorio_alunos_por_turma()
+        elif opcao == "2":
+            relatorio_professores_por_disciplina()
+        elif opcao == "3":
+            relatorio_notas_alunos()
+        elif opcao == "4":
+            break
+        else:
+            print(" Opção inválida, Tente novamente.\n")
