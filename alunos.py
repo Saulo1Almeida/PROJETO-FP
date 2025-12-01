@@ -158,5 +158,13 @@ def atualizar_aluno():
 
         elif op == "3":
             break
+            
+        else:
+            print("Opção inválida.")
+
+
+    conn.close()
+    print("Aluno atualizado com sucesso!\n")
+
 
 
