@@ -1,13 +1,13 @@
 from database import create_connection, execute_query, execute_read_query
 
 def buscar_turma_por_id(conn, id_turma):
-   
+    """Busca uma turma pelo ID no banco de dados."""
     query = "SELECT * FROM turmas WHERE id = ?"
     result = execute_read_query(conn, query, (id_turma,))
     return result[0] if result else None
 
 def listar_turmas():
-   
+    """Lista todas as turmas cadastradas."""
     conn = create_connection()
     if conn is None:
         return
@@ -25,6 +25,7 @@ def listar_turmas():
     """
     turmas = execute_read_query(conn, query)
     conn.close()
+
     if not turmas:
         print("Nenhuma turma cadastrada.\n")
         return
@@ -34,9 +35,9 @@ def listar_turmas():
         professor_info = f"Professor: {t['nome_professor']} (ID: {t['professor_id']})" if t['professor_id'] else "N/A"
         print(f"ID: {t['id']} | Nome: {t['nome']} | {professor_info}")
     print()
-   
-def criar_turma():
     
+def criar_turma():
+    """Cria uma nova turma no banco de dados."""
     conn = create_connection()
     if conn is None:
         return
@@ -60,11 +61,13 @@ def criar_turma():
         print(f"Turma '{nome}' (ID: {turma_id}) criada com sucesso!\n")
     else:
         print(f"Erro ao criar turma '{nome}'.")
+
 def ler_turmas():
-    
+    """Exibe a lista de todas as turmas."""
     listar_turmas()
 
 def ler_uma_turma():
+    """Exibe os detalhes de uma turma específica, incluindo alunos."""
     conn = create_connection()
     if conn is None:
         return
@@ -105,7 +108,9 @@ def ler_uma_turma():
         print("\n Turma não encontrada.\n")
     
     conn.close()
+
 def atualizar_turma():
+    """Atualiza os dados de uma turma existente."""
     conn = create_connection()
     if conn is None:
         return
@@ -149,7 +154,9 @@ def atualizar_turma():
     
     conn.close()
     print("\n Turma atualizada com sucesso!\n")
+
 def deletar_turma():
+    """Deleta uma turma existente pelo ID."""
     conn = create_connection()
     if conn is None:
         return
@@ -180,9 +187,4 @@ def deletar_turma():
     
     conn.close()
     print(f"Turma '{turma['nome']} removida com sucesso!\n")
-
-
-
-
-
-
+   
