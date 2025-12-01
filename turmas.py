@@ -105,6 +105,50 @@ def ler_uma_turma():
         print("\n Turma não encontrada.\n")
     
     conn.close()
+def atualizar_turma():
+    conn = create_connection()
+    if conn is None:
+        return
+
+    listar_turmas()
+    id_turma_str = input("Digite o ID da turma que deseja atualizar: ")
+    if not id_turma_str.isdigit():
+        print(" ID inválido.\n")
+        conn.close()
+        return
+    id_turma = int(id_turma_str)
+    
+    turma = buscar_turma_por_id(conn, id_turma)
+
+    if not turma:
+        print("\n Turma não encontrada.\n")
+        conn.close()
+        return
+
+    print(f"Editando: {turma['nome']}")
+    
+    novo_nome = input(f"Novo nome (Atual: {turma['nome']}): ") or turma["nome"]
+    
+    professor_atual = turma['professor_id'] if turma['professor_id'] else 'N/A'
+    nova_professor_id_str = input(f"Novo ID do Professor (Atual: {professor_atual}): ")
+    
+    nova_professor_id = None
+    if nova_professor_id_str.isdigit():
+        nova_professor_id = int(nova_professor_id_str)
+        check_prof_query = "SELECT id FROM professores WHERE id = ?"
+        if not execute_read_query(conn, check_prof_query, (nova_professor_id,)):
+            print(f"Professor com ID {nova_professor_id} não encontrado. O ID do professor não será alterado.")
+            nova_professor_id = turma['professor_id']
+    elif nova_professor_id_str.strip() == "":
+        nova_professor_id = None
+    else:
+        nova_professor_id = turma['professor_id']
+
+    update_query = "UPDATE turmas SET nome = ?, professor_id = ? WHERE id = ?"
+    execute_query(conn, update_query, (novo_nome, nova_professor_id, id_turma))
+    
+    conn.close()
+    print("\n Turma atualizada com sucesso!\n")
 
 
 
