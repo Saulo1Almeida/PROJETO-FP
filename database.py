@@ -15,6 +15,7 @@ def create_connection():
         if conn:
             conn.close()
         return None
+
 def execute_query(conn, query, params=()):
     """Executa uma query SQL (INSERT, UPDATE, DELETE)."""
     try:
@@ -36,7 +37,7 @@ def execute_read_query(conn, query, params=()):
     except Error as e:
         print(f"Erro ao executar query de leitura: {e}")
         return []
-        
+
 def initialize_db():
     """Inicializa o banco de dados, criando as tabelas se não existirem."""
     conn = create_connection()
@@ -88,7 +89,4 @@ def initialize_db():
 
 if __name__ == '__main__':
     initialize_db()
-
-
-
-
+    
