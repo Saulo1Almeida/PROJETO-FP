@@ -14,13 +14,16 @@ def listar_professores():
 
     professores = execute_read_query(conn, "SELECT * FROM professores")
     conn.close()
-if not professores:
-    print("\n Nenhum professor cadastrado.\n")
-    return
-print("\n Lista de Professores: \n")
-for p in professores:
-    print(f"ID: {p['id']} | Matrícula: {p['matricula']} | Nome: {p['nome']} | Disciplina: {p['disciplina']}")
-print()
+
+    if not professores:
+        print("\n Nenhum professor cadastrado.\n")
+        return
+
+    print("\n Lista de Professores: \n")
+    for p in professores:
+        print(f"ID: {p['id']} | Matrícula: {p['matricula']} | Nome: {p['nome']} | Disciplina: {p['disciplina']}")
+    print()
+
 def criar_professor():
     """Cria um novo professor no banco de dados."""
     conn = create_connection()
@@ -41,10 +44,11 @@ def criar_professor():
     professor_id = execute_query(conn, insert_query, (nome, matricula, disciplina))
     
     conn.close()
-if professor_id:
-    print(f"Professor '{nome}' (ID: {professor_id}) adicionado com sucesso!\n")
-else:
-    print(f"Erro ao adicionar professor '{nome}'.")
+    
+    if professor_id:
+        print(f"Professor '{nome}' (ID: {professor_id}) adicionado com sucesso!\n")
+    else:
+        print(f"Erro ao adicionar professor '{nome}'.")
 
 def ler_professores():
     """Exibe a lista de todos os professores."""
@@ -55,25 +59,26 @@ def ler_um_professor():
     conn = create_connection()
     if conn is None:
         return
+
     id_digitado = input("Digite o ID do professor: ")
-
-if not id_digitado.isdigit():
-    print("\n ID inválido. Digite apenas números.\n")
-    conn.close()
-    return
-id_professor = int(id_digitado)
-
-professor = buscar_professor_por_id(conn, id_professor)
-if professor:
-    print("\nDetalhes do Professor:")
-    print(f"ID: {professor['id']}")
-    print(f"Nome: {professor['nome']}")
-    print(f"Matrícula: {professor['matricula']}")
-    print(f"Disciplina: {professor['disciplina']}\n")
-else:
-    print("\n Professor não encontrado.\n")
+    if not id_digitado.isdigit():
+        print("\n ID inválido. Digite apenas números.\n")
+        conn.close()
+        return
+    id_professor = int(id_digitado)
     
-conn.close()
+    professor = buscar_professor_por_id(conn, id_professor)
+
+    if professor:
+        print("\nDetalhes do Professor:")
+        print(f"ID: {professor['id']}")
+        print(f"Nome: {professor['nome']}")
+        print(f"Matrícula: {professor['matricula']}")
+        print(f"Disciplina: {professor['disciplina']}\n")
+    else:
+        print("\n Professor não encontrado.\n")
+        
+    conn.close()
 
 def atualizar_professor():
     """Atualiza os dados de um professor existente."""
@@ -83,30 +88,31 @@ def atualizar_professor():
 
     listar_professores()
 
-id_digitado = input("\n Digite o ID do professor que deseja atualizar: ")
- if not id_digitado.isdigit():
-     print("\n ID inválido. Digite apenas números.\n")
-     conn.close()
-     return
- id_professor = int(id_digitado)
- 
- professor = buscar_professor_por_id(conn, id_professor)
- if not professor:
-     print("\n Professor não encontrado.\n")
-     conn.close()
-     return
-     
- print(f"Editando: {professor['nome']}")
+    id_digitado = input("\n Digite o ID do professor que deseja atualizar: ")
+    if not id_digitado.isdigit():
+        print("\n ID inválido. Digite apenas números.\n")
+        conn.close()
+        return
+    id_professor = int(id_digitado)
+    
+    professor = buscar_professor_por_id(conn, id_professor)
 
- novo_nome = input(f"Novo nome (Atual: {professor['nome']}): ") or professor["nome"]
- nova_matricula = input(f"Nova matrícula (Atual: {professor['matricula']}): ") or professor["matricula"]
- nova_disciplina = input(f"Nova disciplina (Atual: {professor['disciplina']}): ") or professor["disciplina"]
- 
- update_query = "UPDATE professores SET nome = ?, matricula = ?, disciplina = ? WHERE id = ?"
- execute_query(conn, update_query, (novo_nome, nova_matricula, nova_disciplina, id_professor))
- 
- conn.close()
- print("\n Professor atualizado com sucesso!\n")
+    if not professor:
+        print("\n Professor não encontrado.\n")
+        conn.close()
+        return
+
+    print(f"Editando: {professor['nome']}")
+    
+    novo_nome = input(f"Novo nome (Atual: {professor['nome']}): ") or professor["nome"]
+    nova_matricula = input(f"Nova matrícula (Atual: {professor['matricula']}): ") or professor["matricula"]
+    nova_disciplina = input(f"Nova disciplina (Atual: {professor['disciplina']}): ") or professor["disciplina"]
+    
+    update_query = "UPDATE professores SET nome = ?, matricula = ?, disciplina = ? WHERE id = ?"
+    execute_query(conn, update_query, (novo_nome, nova_matricula, nova_disciplina, id_professor))
+    
+    conn.close()
+    print("\n Professor atualizado com sucesso!\n")
 
 def deletar_professor():
     """Deleta um professor existente pelo ID."""
@@ -128,15 +134,16 @@ def deletar_professor():
         print("Professor não encontrado.\n")
         conn.close()
         return
+    
     check_turmas_query = "SELECT id FROM turmas WHERE professor_id = ?"
     if execute_read_query(conn, check_turmas_query, (id_professor,)):
-    print("\n Erro: O professor está associado a uma ou mais turmas. Remova a associação antes de excluir.\n")
-    conn.close()
-    return
-    
-   delete_query = "DELETE FROM professores WHERE id = ?"
-   execute_query(conn, delete_query, (id_professor,))
-    
-    conn.close()
- print(f"Professor '{professor['nome']}' removido com sucesso!\n")
+        print("\n Erro: O professor está associado a uma ou mais turmas. Remova a associação antes de excluir.\n")
+        conn.close()
+        return
 
+    delete_query = "DELETE FROM professores WHERE id = ?"
+    execute_query(conn, delete_query, (id_professor,))
+    
+    conn.close()
+    print(f"Professor '{professor['nome']}' removido com sucesso!\n")
+    
