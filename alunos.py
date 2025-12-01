@@ -141,4 +141,22 @@ def atualizar_aluno():
             nota_query = "INSERT INTO notas (aluno_id, disciplina, valor) VALUES (?, ?, ?)"
             execute_query(conn, nota_query, (id_aluno, disciplina, valor))
             print(f"Nota de {disciplina} adicionada com sucesso.")
+        elif op == "2":
+            disciplina = input("Disciplina que deseja editar: ")
+            valor_str = input("Novo valor da nota (0.0 a 10.0): ")
+
+            if not valor_str.replace('.', '', 1).isdigit():
+                print("Valor de nota inválido. Use números.\n")
+                continue
+
+            valor = float(valor_str)
+
+            nota_query = "UPDATE notas SET valor = ? WHERE aluno_id = ? AND disciplina = ?"
+            execute_query(conn, nota_query, (valor, id_aluno, disciplina))
+            
+            print(f"Nota de {disciplina} editada com sucesso.")
+
+        elif op == "3":
+            break
+
 
