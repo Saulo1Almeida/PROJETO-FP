@@ -7,9 +7,9 @@ def exibir_menu():
     
     while True:
         print("\n========== SISTEMA DE GESTÃO ESCOLAR  ==========")
-        print("1. Gerenciar Alunos ")
-        print("2. Gerenciar Professores ")
-        print("3. Gerenciar Turmas ")
+        print("1. Gerenciar Alunos (PROFESSORES/DIREÇÃO) ")
+        print("2. Gerenciar Professores (DIREÇÃO) ")
+        print("3. Gerenciar Turmas (DIREÇÃO) ")
         print("4. Relatórios")
         print("5. Sair")
         print("=============================================================")
@@ -29,4 +29,5 @@ def exibir_menu():
             break
         else:
             print("Opção inválida,Tente novamente.\n")
+
 
