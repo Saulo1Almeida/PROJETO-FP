@@ -1,9 +1,11 @@
-from arquivos import carregaramentodedados, salvamentodedados, id_dados
+from database import create_connection, execute_query, execute_read_query
 
-def buscar_IdProfessor(alunos, id_aluno):
-    for aluno in alunos:
-        if aluno["id"] == id_aluno:
-            return aluno
+def buscar_aluno_por_id(conn, id_aluno):
+    """Busca um aluno pelo ID no banco de dados."""
+    query = "SELECT * FROM alunos WHERE id = ?"
+    result = execute_read_query(conn, query, (id_aluno,))
+    return result[0] if result else None
+
     return None
 def listar_alunos(alunos):
     if not alunos:
@@ -122,3 +124,4 @@ def deletar_aluno():
         print(f"Aluno '{aluno['nome']}' removido com sucesso!\n")
     else:
         print("\n Aluno não encontrado.\n")
+
