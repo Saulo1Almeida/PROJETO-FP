@@ -57,3 +57,31 @@ def menu_crud_professores():
             break
         else:
             print(" Opção inválida, Tente novamente.\n")
+
+def menu_crud_turmas():
+    while True:
+        print("\n========== GERENCIAR TURMAS ==========")
+        print("1. Cadastrar Turma")
+        print("2. Listar Todas as Turmas")
+        print("3. Buscar Turma por ID")
+        print("4. Atualizar Turma")
+        print("5. Excluir Turma")
+        print("6. Voltar ao Menu Principal")
+        print("======================================")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            criar_turma()
+        elif opcao == "2":
+            ler_turmas()
+        elif opcao == "3":
+            ler_uma_turma()
+        elif opcao == "4":
+            atualizar_turma()
+        elif opcao == "5":
+            deletar_turma()
+        elif opcao == "6":
+            break
+        else:
+            print(" Opção inválida, Tente novamente.\n")

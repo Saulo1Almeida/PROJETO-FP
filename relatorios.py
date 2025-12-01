@@ -64,3 +64,36 @@ def relatorio_professores_por_disciplina():
             disciplina_atual = row['disciplina']
         print(f"  - Nome: {row['nome']} | Matrícula: {row['matricula']}")
     print("=============================================================\n")
+
+def relatorio_notas_alunos():
+    conn = create_connection()
+    if conn is None:
+        return
+
+    query = """
+    SELECT 
+        a.nome AS nome_aluno, 
+        n.disciplina, 
+        n.valor
+    FROM 
+        alunos a
+    JOIN 
+        notas n ON a.id = n.aluno_id
+    ORDER BY 
+        nome_aluno, disciplina
+    """
+    dados = execute_read_query(conn, query)
+    conn.close()
+
+    if not dados:
+        print("\n Não há notas cadastradas para gerar o relatório.\n")
+        return
+
+    print("\n========== RELATÓRIO DE NOTAS DOS ALUNOS ==========")
+    aluno_atual = None
+    for row in dados:
+        if row['nome_aluno'] != aluno_atual:
+            print(f"\n--- Aluno: {row['nome_aluno']} ---")
+            aluno_atual = row['nome_aluno']
+        print(f"  - Disciplina: {row['disciplina']} | Nota: {row['valor']:.2f}")
+    print("===================================================\n")
