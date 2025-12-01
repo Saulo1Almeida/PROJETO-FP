@@ -149,6 +149,39 @@ def atualizar_turma():
     
     conn.close()
     print("\n Turma atualizada com sucesso!\n")
+def deletar_turma():
+    conn = create_connection()
+    if conn is None:
+        return
+
+    listar_turmas()
+    id_turma_str = input("Digite o ID da turma que deseja excluir: ")
+    if not id_turma_str.isdigit():
+        print(" ID inválido.\n")
+        conn.close()
+        return
+    id_turma = int(id_turma_str)
+    
+    turma = buscar_turma_por_id(conn, id_turma)
+
+    if not turma:
+        print("Turma não encontrada.\n")
+        conn.close()
+        return
+    
+    check_alunos_query = "SELECT id FROM alunos WHERE turma_id = ?"
+    if execute_read_query(conn, check_alunos_query, (id_turma,)):
+        print("\n Erro: A turma possui alunos associados. Remova os alunos da turma antes de excluir.\n")
+        conn.close()
+        return
+
+    delete_query = "DELETE FROM turmas WHERE id = ?"
+    execute_query(conn, delete_query, (id_turma,))
+    
+    conn.close()
+    print(f"Turma '{turma['nome']} removida com sucesso!\n")
+
+
 
 
 
