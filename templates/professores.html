@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Professores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+            <h2 class="brand">SCHOOL+</h2>
+
+            <nav>
+                <a href="/">🏠 Home</a>
+                <a href="/alunos">👨‍🎓 Alunos</a>
+                <a href="/professores" class="active">🧑‍🏫 Professores</a>
+                <a href="/turmas">📚 Turmas</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+
+            <h1 class="title">Gerenciamento de Professores</h1>
+
+            <div class="card">
+                <h3 class="card-title">Professores cadastrados:</h3>
+
+                <ul class="list">
+                    {% for prof in professores %}
+                    <li class="list-item">
+                        <div>
+                            <strong>{{ prof[1] }}</strong>
+                            <span class="age">Matrícula: {{ prof[2] }}</span><br>
+                            <span class="age">Disciplina: {{ prof[3] }}</span>
+                        </div>
+
+                        <div class="actions">
+                            <a href="/professores/editar/{{ prof[0] }}" class="btn edit">Editar</a>
+                            <a href="/professores/delete/{{ prof[0] }}" class="btn delete">Excluir</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card form-card">
+
+                {% if prof_editar %}
+                <h3 class="card-title">Editar professor</h3>
+
+                <form action="/professores/update/{{ prof_editar[0] }}" method="POST">
+                    <label>Nome:</label>
+                    <input type="text" name="nome" value="{{ prof_editar[1] }}" required>
+
+                    <label>Matrícula:</label>
+                    <input type="text" name="matricula" value="{{ prof_editar[2] }}" required>
+
+                    <label>Disciplina:</label>
+                    <input type="text" name="disciplina" value="{{ prof_editar[3] }}" required>
+
+                    <button class="btn save">Salvar</button>
+                </form>
+
+                {% else %}
+                <h3 class="card-title">Adicionar novo professor</h3>
+
+                <form action="/professores/add" method="POST">
+                    <label>Nome:</label>
+                    <input type="text" name="nome" required>
+
+                    <label>Matrícula:</label>
+                    <input type="text" name="matricula" required>
+
+                    <label>Disciplina:</label>
+                    <input type="text" name="disciplina" required>
+
+                    <button class="btn add">Cadastrar</button>
+                </form>
+                {% endif %}
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+.subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.home-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: #333;
+  transition: 0.2s;
+  border-left: 6px solid #4a90e2;
+}
+
+.home-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #0d1117;
+  color: #fff;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: #161b22;
+  padding: 25px 20px;
+  border-right: 1px solid #222;
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #58a6ff;
+  text-align: center;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #c9d1d9;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.sidebar nav a:hover {
+  background: #21262d;
+}
+
+.sidebar nav .active {
+  background: #238636;
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  padding: 25px;
+  border-radius: 14px;
+  margin-bottom: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-title {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.list {
+  list-style: none;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.age {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.edit {
+  background: #d29922;
+}
+
+.edit:hover {
+  background: #b58118;
+}
+
+.delete {
+  background: #da3633;
+}
+
+.delete:hover {
+  background: #b32b2a;
+}
+
+.add {
+  background: #238636;
+}
+
+.save {
+  background: #2f81f7;
+}
+
+.add:hover,
+.save:hover {
+  opacity: 0.9;
+}
+
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #0d1117;
+  color: #fff;
+}

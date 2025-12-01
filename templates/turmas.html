@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Turmas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+            <h2 class="brand">SCHOOL+</h2>
+
+            <nav>
+                <a href="/">🏠 Home</a>
+                <a href="/alunos">👨‍🎓 Alunos</a>
+                <a href="/professores">🧑‍🏫 Professores</a>
+                <a href="/turmas" class="active">📚 Turmas</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+
+            <h1 class="title">Gerenciamento de Turmas</h1>
+
+            <div class="card">
+                <h3 class="card-title">Turmas cadastradas</h3>
+
+                <ul class="list">
+                    {% for turma in turmas %}
+                    <li class="list-item">
+                        <div>
+                            <strong>{{ turma[1] }}</strong>
+                            <span class="age">ID: {{ turma[0] }}</span>
+
+                            <div class="prof">
+                                Professor:
+                                {% if turma[2] %}
+                                {{ turma[2] }}
+                                {% else %}
+                                <em>Não definido</em>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="actions">
+                            <a href="/turmas/editar/{{ turma[0] }}" class="btn edit">Editar</a>
+                            <a href="/turmas/delete/{{ turma[0] }}" class="btn delete">Excluir</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card form-card">
+
+                {% if turma_editar %}
+
+                <h3 class="card-title">Editar turma</h3>
+
+                <form action="/turmas/update/{{ turma_editar[0] }}" method="POST">
+
+                    <label>Nome da Turma:</label>
+                    <input type="text" name="nome" value="{{ turma_editar[1] }}" required>
+
+                    <label>Professor da Turma:</label>
+                    <select name="professor_id" required>
+                        <option value="">Selecione</option>
+
+                        {% for prof in professores %}
+                        <option value="{{ prof[0] }}" {% if prof[0] == turma_editar[2] %}selected{% endif %}>
+                            {{ prof[1] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btn save">Salvar</button>
+                </form>
+
+                {% else %}
+
+                <h3 class="card-title">Adicionar nova turma</h3>
+
+                <form action="/turmas/add" method="POST">
+
+                    <label>Nome da Turma:</label>
+                    <input type="text" name="nome" required>
+
+                    <label>Professor da Turma:</label>
+                    <select name="professor_id" required>
+                        <option value="">Selecione</option>
+
+                        {% for prof in professores %}
+                        <option value="{{ prof[0] }}">{{ prof[1] }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btn add">Cadastrar</button>
+                </form>
+
+                {% endif %}
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alunos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h2 class="brand">SCHOOL+</h2>
+
+            <nav>
+                <a href="/">🏠 Home</a>
+                <a href="/alunos" class="active">👨‍🎓 Alunos</a>
+                <a href="/professores">🧑‍🏫 Professores</a>
+                <a href="/turmas">📚 Turmas</a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="content">
+
+            <h1 class="title">Gerenciamento de Alunos</h1>
+
+            <!-- LISTA DE ALUNOS -->
+            <div class="card">
+                <h3 class="card-title">Alunos cadastrados:</h3>
+
+                <ul class="list">
+                    {% for aluno in alunos %}
+                    <li class="list-item">
+
+                        <div>
+                            <strong>{{ aluno[1] }}</strong>
+                            <span class="age">{{ aluno[2] }} anos</span>
+
+                            <!-- Turma -->
+                            <div class="turma-info">
+                                Turma:
+                                {% if aluno[4] %}
+                                <strong>{{ aluno[4] }}</strong>
+                                {% else %}
+                                <em>Sem turma</em>
+                                {% endif %}
+                            </div>
+
+                            <!-- Notas -->
+                            <div class="grades">
+                                {% if aluno[0] in notas_por_aluno %}
+                                {% for nota in notas_por_aluno[aluno[0]] %}
+                                <div class="grade-item">
+                                    <strong>{{ nota[1] }}:</strong> {{ nota[2] }}
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="grade-item">
+                                    <em>Sem notas cadastradas</em>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="actions">
+                            <a href="/alunos/editar/{{ aluno[0] }}" class="btn edit">Editar</a>
+                            <a href="/alunos/delete/{{ aluno[0] }}" class="btn delete">Excluir</a>
+                        </div>
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- FORMULÁRIO PARA CADASTRO / EDIÇÃO -->
+            <div class="card form-card">
+
+                {% if aluno_editar %}
+
+                <!-- Editar aluno -->
+                <h3 class="card-title">Editar aluno</h3>
+
+                <form action="/alunos/update/{{ aluno_editar[0] }}" method="POST">
+                    <label>Nome:</label>
+                    <input type="text" name="nome" value="{{ aluno_editar[1] }}" required>
+
+                    <label>Idade:</label>
+                    <input type="number" name="idade" value="{{ aluno_editar[2] }}" required>
+
+                    <!-- Turma -->
+                    <label>Turma:</label>
+                    <select name="id_turma" required>
+                        <option value="">Selecione</option>
+                        {% for turma in turmas %}
+                        <option value="{{ turma[0] }}" {% if turma[0] == aluno_editar[3] %}selected{% endif %}>
+                            {{ turma[1] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btn save">Salvar</button>
+                </form>
+
+                <hr>
+
+                <!-- Formulário de notas -->
+                <h3 class="card-title">Nota do aluno</h3>
+
+                <form action="/alunos/update_notas/{{ aluno_editar[0] }}" method="POST">
+
+                    <label>Disciplina:</label>
+                    <input type="text" name="disciplina" value="{{ notas_editar[1] if notas_editar else '' }}" required>
+
+                    <label>Nota:</label>
+                    <input type="number" step="0.01" name="valor" value="{{ notas_editar[2] if notas_editar else '' }}"
+                        required>
+
+                    <button class="btn save">Salvar nota</button>
+                </form>
+
+                {% else %}
+
+                <!-- Adicionar aluno -->
+                <h3 class="card-title">Adicionar novo aluno</h3>
+
+                <form action="/alunos/add" method="POST">
+                    <label>Nome:</label>
+                    <input type="text" name="nome" required>
+
+                    <label>Idade:</label>
+                    <input type="number" name="idade" required>
+
+                    <!-- Turma -->
+                    <label>Turma:</label>
+                    <select name="id_turma" required>
+                        <option value="">Selecione</option>
+                        {% for turma in turmas %}
+                        <option value="{{ turma[0] }}">{{ turma[1] }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btn add">Cadastrar</button>
+                </form>
+
+                {% endif %}
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

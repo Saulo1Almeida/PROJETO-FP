@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>School+ - Início</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+            <h2 class="brand">SCHOOL+</h2>
+
+            <nav>
+                <a href="/" class="active">🏠 Home</a>
+                <a href="/alunos">👨‍🎓 Alunos</a>
+                <a href="/professores">🧑‍🏫 Professores</a>
+                <a href="/turmas">📚 Turmas</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+
+            <h1 class="title">Bem-vindo ao School+</h1>
+
+            <p class="subtitle">Gerencie alunos, professores e turmas de forma simples e rápida.</p>
+
+            <div class="cards-grid">
+
+                <a href="/alunos" class="home-card">
+                    <h2>👨‍🎓 Alunos</h2>
+                    <p>Cadastre, edite e gerencie alunos da escola.</p>
+                </a>
+
+                <a href="/professores" class="home-card">
+                    <h2>🧑‍🏫 Professores</h2>
+                    <p>Controle informações e dados dos professores.</p>
+                </a>
+
+                <a href="/turmas" class="home-card">
+                    <h2>📚 Turmas</h2>
+                    <p>Organize e administre as turmas cadastradas.</p>
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
