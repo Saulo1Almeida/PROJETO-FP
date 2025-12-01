@@ -24,113 +24,68 @@ def listar_alunos():
         print(f"ID: {a['id']} | Matrícula: {a['matricula']} | Nome: {a['nome']} | Turma ID: {a['turma_id'] if a['turma_id'] else 'N/A'}")
     print()
 def criar_aluno():
-    alunos = carregaramentodedados("\nalunos\n")
+    """Cria um novo aluno no banco de dados."""
+    conn = create_connection()
+    if conn is None:
+        return
+
     nome = input("\n Nome do Aluno: \n")
     matricula = input("\n Matrícula: \n")
-    turma_id = input("\n ID da Turma (deixe vazio se não houver): \n")
-    if any(a["matricula"] == matricula for a in alunos):
-        print("\n Matrícula já cadastrada.\n")
-        return
-    aluno = {
-        "id":  id_dados(alunos),
-        "nome": nome,
-        "matricula": matricula,
-        "turma_id": int(turma_id) if turma_id.isdigit() else None,
-        "notas": []
-    }
-    alunos.append(aluno)
-    salvamentodedados(alunos, "\n alunos \n")
-    print(f"Aluno '{nome}' (ID: {aluno['id']}) adicionado com sucesso!\n")
+    turma_id_str = input("\n ID da Turma (deixe vazio se não houver): \n")
+    turma_id = int(turma_id_str) if turma_id_str.isdigit() else None
+    check_query = "SELECT id FROM alunos WHERE matricula = ?"
+        if execute_read_query(conn, check_query, (matricula,)):
+            print("\n Matrícula já cadastrada.\n")
+            conn.close()
+            return
+    
+        insert_query = "INSERT INTO alunos (nome, matricula, turma_id) VALUES (?, ?, ?)"
+        aluno_id = execute_query(conn, insert_query, (nome, matricula, turma_id))
+        
+        conn.close()
+        
+        if aluno_id:
+            print(f"Aluno '{nome}' (ID: {aluno_id}) adicionado com sucesso!\n")
+        else:
+            print(f"Erro ao adicionar aluno '{nome}'.")
+
 def ler_alunos():
-    alunos = carregaramentodedados("alunos")
-    listar_alunos(alunos)
+    """Exibe a lista de todos os alunos."""
+    listar_alunos()
+
 def ler_um_aluno():
-    alunos = carregaramentodedados("alunos")
-    if not alunos:
-        print("\n Nenhum aluno cadastrado.\n")
+    """Exibe os detalhes de um aluno específico, incluindo notas."""
+    conn = create_connection()
+    if conn is None:
         return
+
     id_aluno_str = input("\n Digite o ID do aluno: \n")
     if not id_aluno_str.isdigit():
         print(" ID inválido.\n")
+        conn.close()
         return
     id_aluno = int(id_aluno_str)
-    aluno = buscar_IdProfessor(alunos, id_aluno)
+    
+    aluno = buscar_aluno_por_id(conn, id_aluno)
+
     if aluno:
         print("\n Detalhes do Aluno:")
         print(f"ID: {aluno['id']}")
         print(f"Nome: {aluno['nome']}")
         print(f"Matrícula: {aluno['matricula']}")
         print(f"Turma ID: {aluno['turma_id'] if aluno['turma_id'] else 'N/A'}")
-        if aluno['notas']:
+
+        notas_query = "SELECT disciplina, valor FROM notas WHERE aluno_id = ?"
+        notas = execute_read_query(conn, notas_query, (id_aluno,))
+
+        if notas:
             print("\nNotas:")
-            for nota in aluno['notas']:
+            for nota in notas:
                 print(f"  - Disciplina: {nota['disciplina']}, Nota: {nota['valor']:.2f}")
         else:
             print("\n O aluno ainda não possui notas cadastradas. \n")
         print()
     else:
         print("\n Aluno não encontrado.\n")
-def atualizar_aluno():
-    alunos = carregaramentodedados("alunos")
-    listar_alunos(alunos)
-    id_aluno_str = input("Digite o ID do aluno que deseja atualizar: ")
-    if not id_aluno_str.isdigit():
-        print(" ID inválido.\n")
-        return
-    id_aluno = int(id_aluno_str)
-    aluno = buscar_IdProfessor(alunos, id_aluno)
-    if not aluno:
-        print("\n Aluno não encontrado.\n")
-        return
-    print(f"Editando: {aluno['nome']}")
-    aluno["nome"] = input(f"Novo nome (Atual: {aluno['nome']}): ") or aluno["nome"]
-    aluno["matricula"] = input(f"Nova matrícula (Atual: {aluno['matricula']}): ") or aluno["matricula"]
-    nova_turma_id = input(f"Novo ID da Turma (Atual: {aluno['turma_id'] if aluno['turma_id'] else 'N/A'}): ")
-    if nova_turma_id.isdigit():
-        aluno["turma_id"] = int(nova_turma_id)
-    while True:
-        print("\n Opções de Notas: \n")
-        print("1. Adicionar/Editar Nota")
-        print("2. Concluir Edição de Aluno")
-        op = input("Escolha uma opção: ")
-        if op == "1":
-            disciplina = input("Disciplina: ")
-            valor_str = input("Nota (0.0 a 10.0): ")
-
-            if not valor_str.replace('.', '', 1).isdigit():
-                print("Valor de nota inválido. Use números.\n")
-                continue
-            valor = float(valor_str)
-            nota_encontrada = False
-            for nota in aluno['notas']:
-                if nota['disciplina'].lower() == disciplina.lower():
-                    nota['valor'] = valor
-                    nota_encontrada = True
-                    break    
-            if not nota_encontrada:
-                aluno['notas'].append({"disciplina": disciplina, "valor": valor})
-            print(f"Nota de {disciplina} atualizada/adicionada com sucesso.")
-        elif op == "2":
-            break
-        else:
-            print("Opção inválida.")
-    salvamentodedados(alunos, "alunos")
-    print("Aluno atualizado com sucesso!\n")
-def deletar_aluno():
-    """Deleta um aluno existente pelo ID."""
-    alunos = carregaramentodedados("alunos")
-    listar_alunos(alunos)
-    id_aluno_str = input("Digite o ID do aluno que deseja excluir: ")
-    if not id_aluno_str.isdigit():
-        print(" ID inválido.\n")
-        return
-    id_aluno = int(id_aluno_str)
-    aluno = buscar_IdProfessor(alunos, id_aluno)
-    if aluno:
-        alunos.remove(aluno)
-        salvamentodedados(alunos, "alunos")
-        print(f"Aluno '{aluno['nome']}' removido com sucesso!\n")
-    else:
-        print("\n Aluno não encontrado.\n")
-
-
+    
+    conn.close()
