@@ -29,3 +29,31 @@ def menu_crud_alunos():
             break
         else:
             print(" Opção inválida, Tente novamente.\n")
+
+def menu_crud_professores():
+    while True:
+        print("\n========== GERENCIAR PROFESSORES ==========")
+        print("1. Cadastrar Professor")
+        print("2. Listar Todos os Professores")
+        print("3. Buscar Professor por ID")
+        print("4. Atualizar Professor")
+        print("5. Excluir Professor")
+        print("6. Voltar ao Menu Principal")
+        print("===========================================")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            criar_professor()
+        elif opcao == "2":
+            ler_professores()
+        elif opcao == "3":
+            ler_um_professor()
+        elif opcao == "4":
+            atualizar_professor()
+        elif opcao == "5":
+            deletar_professor()
+        elif opcao == "6":
+            break
+        else:
+            print(" Opção inválida, Tente novamente.\n")

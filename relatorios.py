@@ -33,3 +33,34 @@ def relatorio_alunos_por_turma():
             turma_atual = nome_turma
         print(f"  - Nome: {row['nome_aluno']} | Matrícula: {row['matricula']}")
     print("===================================================\n")
+
+def relatorio_professores_por_disciplina():
+    conn = create_connection()
+    if conn is None:
+        return
+
+    query = """
+    SELECT 
+        disciplina, 
+        nome, 
+        matricula
+    FROM 
+        professores
+    ORDER BY 
+        disciplina, nome
+    """
+    dados = execute_read_query(conn, query)
+    conn.close()
+
+    if not dados:
+        print("\n Não há dados de professores para gerar o relatório.\n")
+        return
+
+    print("\n========== RELATÓRIO DE PROFESSORES POR DISCIPLINA ==========")
+    disciplina_atual = None
+    for row in dados:
+        if row['disciplina'] != disciplina_atual:
+            print(f"\n--- Disciplina: {row['disciplina']} ---")
+            disciplina_atual = row['disciplina']
+        print(f"  - Nome: {row['nome']} | Matrícula: {row['matricula']}")
+    print("=============================================================\n")
