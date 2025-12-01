@@ -6,14 +6,22 @@ def buscar_aluno_por_id(conn, id_aluno):
     result = execute_read_query(conn, query, (id_aluno,))
     return result[0] if result else None
 
-    return None
-def listar_alunos(alunos):
+def listar_alunos():
+    """Lista todos os alunos cadastrados."""
+    conn = create_connection()
+    if conn is None:
+        return
+
+    alunos = execute_read_query(conn, "SELECT * FROM alunos")
+    conn.close()
+
     if not alunos:
         print("\n Nenhum aluno cadastrado.\n")
         return
+
     print("\n Lista de Alunos:\n")
     for a in alunos:
-        print(f"ID: {a['id']} | Matrícula: {a['matricula']} | Nome: {a['nome']} | Turma ID: {a['turma_id']}")
+        print(f"ID: {a['id']} | Matrícula: {a['matricula']} | Nome: {a['nome']} | Turma ID: {a['turma_id'] if a['turma_id'] else 'N/A'}")
     print()
 def criar_aluno():
     alunos = carregaramentodedados("\nalunos\n")
@@ -124,4 +132,5 @@ def deletar_aluno():
         print(f"Aluno '{aluno['nome']}' removido com sucesso!\n")
     else:
         print("\n Aluno não encontrado.\n")
+
 
