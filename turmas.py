@@ -35,7 +35,7 @@ def listar_turmas():
         print(f"ID: {t['id']} | Nome: {t['nome']} | {professor_info}")
     print()
    
-   def criar_turma():
+def criar_turma():
     
     conn = create_connection()
     if conn is None:
@@ -180,6 +180,7 @@ def deletar_turma():
     
     conn.close()
     print(f"Turma '{turma['nome']} removida com sucesso!\n")
+
 
 
 
