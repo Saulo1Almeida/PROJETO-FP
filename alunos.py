@@ -89,3 +89,23 @@ def ler_um_aluno():
         print("\n Aluno não encontrado.\n")
     
     conn.close()
+def atualizar_aluno():
+    """Atualiza os dados de um aluno existente, incluindo notas."""
+    conn = create_connection()
+    if conn is None:
+        return
+
+    listar_alunos()
+    id_aluno_str = input("Digite o ID do aluno que deseja atualizar: ")
+    if not id_aluno_str.isdigit():
+        print(" ID inválido.\n")
+        conn.close()
+        return
+    id_aluno = int(id_aluno_str)
+    
+    aluno = buscar_aluno_por_id(conn, id_aluno)
+
+    if not aluno:
+        print("\n Aluno não encontrado.\n")
+        conn.close()
+        return
