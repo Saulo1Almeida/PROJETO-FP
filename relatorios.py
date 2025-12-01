@@ -1,6 +1,7 @@
 from database import create_connection, execute_read_query
 
 def relatorio_alunos_por_turma():
+    """Gera um relatório de alunos agrupados por turma."""
     conn = create_connection()
     if conn is None:
         return
@@ -35,6 +36,7 @@ def relatorio_alunos_por_turma():
     print("===================================================\n")
 
 def relatorio_professores_por_disciplina():
+    """Gera um relatório de professores agrupados por disciplina."""
     conn = create_connection()
     if conn is None:
         return
@@ -66,6 +68,7 @@ def relatorio_professores_por_disciplina():
     print("=============================================================\n")
 
 def relatorio_notas_alunos():
+    """Gera um relatório de notas de todos os alunos."""
     conn = create_connection()
     if conn is None:
         return
@@ -99,6 +102,7 @@ def relatorio_notas_alunos():
     print("===================================================\n")
 
 def exibir_menu_relatorios():
+    """Exibe o menu de relatórios."""
     while True:
         print("\n========== MENU DE RELATÓRIOS ==========")
         print("1. Alunos por Turma")
@@ -119,3 +123,4 @@ def exibir_menu_relatorios():
             break
         else:
             print(" Opção inválida, Tente novamente.\n")
+    
