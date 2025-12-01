@@ -128,3 +128,17 @@ def atualizar_aluno():
         print("3. Concluir Edição de Aluno")
         op = input("Escolha uma opção: ")
 
+        if op == "1":
+            disciplina = input("Disciplina: ")
+            valor_str = input("Nota (0.0 a 10.0): ")
+
+            if not valor_str.replace('.', '', 1).isdigit():
+                print("Valor de nota inválido. Use números.\n")
+                continue
+
+            valor = float(valor_str)
+
+            nota_query = "INSERT INTO notas (aluno_id, disciplina, valor) VALUES (?, ?, ?)"
+            execute_query(conn, nota_query, (id_aluno, disciplina, valor))
+            print(f"Nota de {disciplina} adicionada com sucesso.")
+
