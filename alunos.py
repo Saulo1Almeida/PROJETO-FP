@@ -23,6 +23,7 @@ def listar_alunos():
     for a in alunos:
         print(f"ID: {a['id']} | Matrícula: {a['matricula']} | Nome: {a['nome']} | Turma ID: {a['turma_id'] if a['turma_id'] else 'N/A'}")
     print()
+    
 def criar_aluno():
     """Cria um novo aluno no banco de dados."""
     conn = create_connection()
@@ -33,6 +34,7 @@ def criar_aluno():
     matricula = input("\n Matrícula: \n")
     turma_id_str = input("\n ID da Turma (deixe vazio se não houver): \n")
     turma_id = int(turma_id_str) if turma_id_str.isdigit() else None
+    
     check_query = "SELECT id FROM alunos WHERE matricula = ?"
         if execute_read_query(conn, check_query, (matricula,)):
             print("\n Matrícula já cadastrada.\n")
@@ -89,6 +91,7 @@ def ler_um_aluno():
         print("\n Aluno não encontrado.\n")
     
     conn.close()
+
 def atualizar_aluno():
     """Atualiza os dados de um aluno existente, incluindo notas."""
     conn = create_connection()
@@ -141,6 +144,7 @@ def atualizar_aluno():
             nota_query = "INSERT INTO notas (aluno_id, disciplina, valor) VALUES (?, ?, ?)"
             execute_query(conn, nota_query, (id_aluno, disciplina, valor))
             print(f"Nota de {disciplina} adicionada com sucesso.")
+            
         elif op == "2":
             disciplina = input("Disciplina que deseja editar: ")
             valor_str = input("Novo valor da nota (0.0 a 10.0): ")
@@ -166,5 +170,31 @@ def atualizar_aluno():
     conn.close()
     print("Aluno atualizado com sucesso!\n")
 
+def deletar_aluno():
+    """Deleta um aluno existente pelo ID e suas notas associadas."""
+    conn = create_connection()
+    if conn is None:
+        return
 
+    listar_alunos()
+    id_aluno_str = input("Digite o ID do aluno que deseja excluir: ")
+    if not id_aluno_str.isdigit():
+        print(" ID inválido.\n")
+        conn.close()
+        return
+    id_aluno = int(id_aluno_str)
+    
+    aluno = buscar_aluno_por_id(conn, id_aluno)
 
+    if aluno:
+        delete_notas_query = "DELETE FROM notas WHERE aluno_id = ?"
+        execute_query(conn, delete_notas_query, (id_aluno,))
+        
+        delete_aluno_query = "DELETE FROM alunos WHERE id = ?"
+        execute_query(conn, delete_aluno_query, (id_aluno,))
+        
+        print(f"Aluno '{aluno['nome']}' removido com sucesso!\n")
+    else:
+        print("\n Aluno não encontrado.\n")
+        
+    conn.close()
