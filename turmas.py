@@ -25,3 +25,13 @@ def listar_turmas():
     """
     turmas = execute_read_query(conn, query)
     conn.close()
+    if not turmas:
+        print("Nenhuma turma cadastrada.\n")
+        return
+
+    print("\nLista de Turmas:")
+    for t in turmas:
+        professor_info = f"Professor: {t['nome_professor']} (ID: {t['professor_id']})" if t['professor_id'] else "N/A"
+        print(f"ID: {t['id']} | Nome: {t['nome']} | {professor_info}")
+    print()
+
