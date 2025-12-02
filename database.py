@@ -4,7 +4,6 @@ from sqlite3 import Error
 DATABASE_NAME = "escola.db"
 
 def create_connection():
-    """Cria uma conexão com o banco de dados SQLite."""
     conn = None
     try:
         conn = sqlite3.connect(DATABASE_NAME)
@@ -17,7 +16,6 @@ def create_connection():
         return None
 
 def execute_query(conn, query, params=()):
-    """Executa uma query SQL (INSERT, UPDATE, DELETE)."""
     try:
         cursor = conn.cursor()
         cursor.execute(query, params)
@@ -28,7 +26,6 @@ def execute_query(conn, query, params=()):
         return None
 
 def execute_read_query(conn, query, params=()):
-    """Executa uma query SQL de leitura (SELECT)."""
     try:
         cursor = conn.cursor()
         cursor.execute(query, params)
@@ -39,7 +36,6 @@ def execute_read_query(conn, query, params=()):
         return []
 
 def initialize_db():
-    """Inicializa o banco de dados, criando as tabelas se não existirem."""
     conn = create_connection()
     if conn is not None:
         alunos_table = """
@@ -90,3 +86,4 @@ def initialize_db():
 if __name__ == '__main__':
     initialize_db()
     
+
