@@ -87,7 +87,7 @@ def ler_um_aluno():
     
     conn.close()
 
-def atualizar_aluno():  
+def atualizar_aluno():
     conn = create_connection()
     if conn is None:
         return
@@ -160,7 +160,6 @@ def atualizar_aluno():
         else:
             print("Opção inválida.")
 
-
     conn.close()
     print("Aluno atualizado com sucesso!\n")
 
@@ -191,6 +190,4 @@ def deletar_aluno():
         print("\n Aluno não encontrado.\n")
         
     conn.close()
-
-
-
+        
