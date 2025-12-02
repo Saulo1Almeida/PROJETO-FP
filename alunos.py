@@ -1,13 +1,11 @@
 from database import create_connection, execute_query, execute_read_query
 
 def buscar_aluno_por_id(conn, id_aluno):
-    """Busca um aluno pelo ID no banco de dados."""
     query = "SELECT * FROM alunos WHERE id = ?"
     result = execute_read_query(conn, query, (id_aluno,))
     return result[0] if result else None
 
 def listar_alunos():
-    """Lista todos os alunos cadastrados."""
     conn = create_connection()
     if conn is None:
         return
@@ -25,7 +23,6 @@ def listar_alunos():
     print()
 
 def criar_aluno():
-    """Cria um novo aluno no banco de dados."""
     conn = create_connection()
     if conn is None:
         return
@@ -52,11 +49,9 @@ def criar_aluno():
         print(f"Erro ao adicionar aluno '{nome}'.")
 
 def ler_alunos():
-    """Exibe a lista de todos os alunos."""
     listar_alunos()
 
 def ler_um_aluno():
-    """Exibe os detalhes de um aluno específico, incluindo notas."""
     conn = create_connection()
     if conn is None:
         return
@@ -92,8 +87,7 @@ def ler_um_aluno():
     
     conn.close()
 
-def atualizar_aluno():
-    """Atualiza os dados de um aluno existente, incluindo notas."""
+def atualizar_aluno():  
     conn = create_connection()
     if conn is None:
         return
@@ -171,7 +165,6 @@ def atualizar_aluno():
     print("Aluno atualizado com sucesso!\n")
 
 def deletar_aluno():
-    """Deleta um aluno existente pelo ID e suas notas associadas."""
     conn = create_connection()
     if conn is None:
         return
@@ -198,5 +191,6 @@ def deletar_aluno():
         print("\n Aluno não encontrado.\n")
         
     conn.close()
+
 
 
