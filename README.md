@@ -131,3 +131,26 @@ Este sistema foi desenvolvido para auxiliar escolas públicas e comunitárias na
 * Banco de Dados: SQLite3
 * Interface: Site usando Flask, HTML e CSS
 * Armazenamento: Arquivo local .db
+
+## 🔌 INSTRUÇÕES PARA ACESSAR INTERFACE
+
+1. Com a pasta do projeto aberta, abra um novo terminal.
+2. No terminal, execute o comando:
+
+   ```
+   pip install flask
+   ```
+3. Após a instalação, navegue até a pasta principal do projeto usando o comando:
+
+   ```
+   cd nome-da-pasta-do-projeto
+   ```
+4. Com o terminal já dentro da pasta do projeto, execute o comando:
+
+   ```
+   python app.py
+   ```
+5. O terminal exibirá uma URL contendo números (exemplo: [http://127.0.0.1:5000](http://127.0.0.1:5000)).
+   Copie essa URL e cole em qualquer navegador para acessar a interface do sistema.
+
+
