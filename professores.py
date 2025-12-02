@@ -1,13 +1,13 @@
-from database import create_connection, execute_query, execute_read_query
+from database import create_connection, execute_query, execute_read_query 
+
 
 def buscar_professor_por_id(conn, id_professor):
-    """Busca um professor pelo ID no banco de dados."""
     query = "SELECT * FROM professores WHERE id = ?"
     result = execute_read_query(conn, query, (id_professor,))
     return result[0] if result else None
 
+
 def listar_professores():
-    """Lista todos os professores cadastrados."""
     conn = create_connection()
     if conn is None:
         return
@@ -24,8 +24,8 @@ def listar_professores():
         print(f"ID: {p['id']} | Matrícula: {p['matricula']} | Nome: {p['nome']} | Disciplina: {p['disciplina']}")
     print()
 
+
 def criar_professor():
-    """Cria um novo professor no banco de dados."""
     conn = create_connection()
     if conn is None:
         return
@@ -50,12 +50,12 @@ def criar_professor():
     else:
         print(f"Erro ao adicionar professor '{nome}'.")
 
+
 def ler_professores():
-    """Exibe a lista de todos os professores."""
     listar_professores()
 
+
 def ler_um_professor():
-    """Exibe os detalhes de um professor específico."""
     conn = create_connection()
     if conn is None:
         return
@@ -80,8 +80,8 @@ def ler_um_professor():
         
     conn.close()
 
+
 def atualizar_professor():
-    """Atualiza os dados de um professor existente."""
     conn = create_connection()
     if conn is None:
         return
@@ -114,8 +114,8 @@ def atualizar_professor():
     conn.close()
     print("\n Professor atualizado com sucesso!\n")
 
+
 def deletar_professor():
-    """Deleta um professor existente pelo ID."""
     conn = create_connection()
     if conn is None:
         return
