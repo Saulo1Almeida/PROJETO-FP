@@ -3,7 +3,7 @@
 
 ## 🎯 Objetivo do Sistema
 
-Este sistema foi desenvolvido para auxiliar escolas públicas e comunitárias na organização e gestão de seus recursos educacionais, alinhando-se diretamente ao Objetivo de Desenvolvimento Sustentável (ODS) 4: Educação de Qualidade. O software resolve o problema da gestão manual de dados escolares, oferecendo uma solução digital acessível para:
+Este sistema foi desenvolvido para auxiliar escolas públicas e particulares na organização e gestão de seus recursos educacionais, alinhando-se diretamente ao Objetivo de Desenvolvimento Sustentável (ODS) 4: Educação de Qualidade. O software resolve o problema da gestão manual de dados escolares, oferecendo uma solução digital acessível para:
 
 * Gestores escolares: Para administrar alunos, professores e turmas
 * Secretarias: Para manter registros acadêmicos organizados
