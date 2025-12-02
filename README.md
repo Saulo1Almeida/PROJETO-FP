@@ -1,5 +1,5 @@
 
-# 📚 Sistema de Gestão Escolar Comunitária
+# 📚 Sistema de Gestão Escolar
 
 ## 🎯 Objetivo do Sistema
 
